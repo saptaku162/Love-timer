@@ -34,11 +34,12 @@
     color: #ff1493;
     z-index: 1;
   }
-  audio {
-    position: fixed;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
+  .spotify {
+    position: absolute;
+    top: 60%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
     z-index: 1;
   }
 </style>
@@ -49,15 +50,17 @@
 <div class="text-box">Aku sayang kamu ❤️</div>
 <div class="timer" id="timer"></div>
 
-<!-- Ganti link musik sesuai keinginan (MP3 online) -->
-<audio autoplay loop>
-  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-</audio>
+<!-- Spotify Player -->
+<div class="spotify">
+  <iframe style="border-radius:20px;box-shadow:0 4px 8px rgba(0,0,0,0.2);" 
+    src="https://open.spotify.com/embed/track/1MdjZzEInrmDBXf8zs0nKS?utm_source=generator" 
+    width="300" height="80" frameBorder="0" 
+    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+</div>
 
 <script>
-// Tanggal mulai hubungan (ganti sesuai tanggal kamu)
+// Timer hari
 const startDate = new Date("2025-07-26");
-
 function updateTimer(){
   const now = new Date();
   const diff = now - startDate;
@@ -70,7 +73,6 @@ function updateTimer(){
   document.getElementById("timer").innerText =
     `${days} hari ${hours} jam ${mins} menit ${secs} detik bersama kamu 💕`;
 }
-
 setInterval(updateTimer, 1000);
 updateTimer();
 

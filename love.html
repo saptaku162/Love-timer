@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Love Timer</title>
+<style>
+  body {
+    margin: 0;
+    overflow: hidden;
+    background: #ffe6f0;
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+  }
+  canvas {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 0;
+  }
+  .text-box {
+    position: absolute;
+    top: 30%;
+    width: 100%;
+    color: #ff2d55;
+    font-size: 24px;
+    font-weight: bold;
+    z-index: 1;
+  }
+  .timer {
+    position: absolute;
+    top: 45%;
+    width: 100%;
+    font-size: 20px;
+    color: #ff1493;
+    z-index: 1;
+  }
+  audio {
+    position: fixed;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+  }
+</style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+
+<div class="text-box">Aku sayang kamu ❤️</div>
+<div class="timer" id="timer"></div>
+
+<!-- Ganti link musik sesuai keinginan (MP3 online) -->
+<audio autoplay loop>
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+// Tanggal mulai hubungan (ganti sesuai tanggal kamu)
+const startDate = new Date("2025-07-26");
+
+function updateTimer(){
+  const now = new Date();
+  const diff = now - startDate;
+
+  const days = Math.floor(diff / 86400000);
+  const hours = Math.floor((diff % 86400000) / 3600000);
+  const mins = Math.floor((diff % 3600000) / 60000);
+  const secs = Math.floor((diff % 60000) / 1000);
+
+  document.getElementById("timer").innerText =
+    `${days} hari ${hours} jam ${mins} menit ${secs} detik bersama kamu 💕`;
+}
+
+setInterval(updateTimer, 1000);
+updateTimer();
+
+// Animasi hati
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+canvas.width = innerWidth;
+canvas.height = innerHeight;
+
+const hearts = [];
+for (let i = 0; i < 50; i++) {
+  hearts.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    size: Math.random() * 8 + 5,
+    speed: Math.random() * 2 + 1
+  });
+}
+
+function drawHeart(x, y, size) {
+  ctx.beginPath();
+  ctx.moveTo(x, y);
+  ctx.bezierCurveTo(x, y - size / 2, x - size, y - size / 2, x - size, y);
+  ctx.bezierCurveTo(x - size, y + size / 2, x, y + size, x, y + size * 1.5);
+  ctx.bezierCurveTo(x, y + size, x + size, y + size / 2, x + size, y);
+  ctx.bezierCurveTo(x + size, y - size / 2, x, y - size / 2, x, y);
+  ctx.fillStyle = 'pink';
+  ctx.fill();
+}
+
+function animate() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  for (let h of hearts) {
+    drawHeart(h.x, h.y, h.size);
+    h.y += h.speed;
+    if (h.y > canvas.height) h.y = -10;
+  }
+  requestAnimationFrame(animate);
+}
+animate();
+</script>
+</body>
+</html>
